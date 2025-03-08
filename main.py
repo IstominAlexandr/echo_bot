@@ -1,17 +1,14 @@
 import asyncio
-import logging
-import os
-import sys
+from aiogram import Bot, Dispatcher
+from config_data.config import load_config
 
-from app.bot import main
-from config.config import settings
+async def main():
+    config:Config = load_config()
 
-logging.basicConfig(
-    level=logging.getLevelName(settings.logs.level_name),
-    format=settings.logs.format
-)
+    bot = Bot(token=config.tg_bot.token)
+    dp = Dispatcher()
 
-if sys.platform.startswith("win") or os.name == "nt":
-    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+    await bot.delete_webhook(drop_pending_updates=True)
+    await dp.start_polling(bot)
 
 asyncio.run(main())
