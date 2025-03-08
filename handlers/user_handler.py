@@ -1,11 +1,15 @@
+from aiogram import Router
 from aiogram.types import Message
-from aiogram.filters Command, CommandStar
-from lixicon.lexicon import LEXICON_RU
+from aiogram.filters import Command, CommandStart
+from lexicon.lexicon import LEXICON_RU
 
-@dp.message(CommandStart())
+router = Router()
+
+@router.message(CommandStart())
 async def proccess_start_command(message:Message):
     await message.answer(text = LEXICON_RU['/start'])
 
-@dp.message(Command(commands='help'))
+
+@router.message(Command(commands='help'))
 async def proccess_help_command(message:Message):
-    await message.answer(text=LEXICON_RU['help'])
+    await message.answer(text=LEXICON_RU['/help'])
